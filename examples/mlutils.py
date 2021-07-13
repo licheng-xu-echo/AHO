@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-
 @author: Li-Cheng Xu
 """
 import numpy as np
@@ -8,6 +7,96 @@ from rdkit import Chem
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_absolute_error,r2_score
 from sklearn.model_selection import train_test_split
+from openbabel.pybel import readfile,Outputfile
+
+def molformatconversion(input_file:str,output_file:str,input_format="xyz",output_format="sdf"):
+    molecules = readfile(input_format,input_file)
+    output_file_writer = Outputfile(output_format,output_file,overwrite=True)
+    for i,molecule in enumerate(molecules):
+        output_file_writer.write(molecule)
+    output_file_writer.close()
+    print('%d molecules converted'%(i+1))
+    
+def process_desc(array):
+    '''
+    process descriptor, delete "NaN" in the descriptor and 
+    the dimensionality that is same in all inputs.
+    '''
+    
+    desc_len = array.shape[1]
+    rig_idx = []
+    for i in range(desc_len):
+        try:
+            desc_range = array[:,i].max() - array[:,i].min()
+            if desc_range != 0 and not np.isnan(desc_range):
+                rig_idx.append(i)
+        except:
+            continue
+    array = array[:,rig_idx]
+    array = np.array(array,dtype=np.float32)
+    return array
+
+def maxminscale(array):
+    '''
+    max-min normalization processing
+    '''
+    return (array - array.min(axis=0))/(array.max(axis=0)-array.min(axis=0))
+
+def standardxyz(init_xyz_coord,atom1_num,atom2_num,atom3_num):
+    atom1_num = int(atom1_num)
+    atom2_num = int(atom2_num)
+    atom3_num = int(atom3_num)                        
+    oldcoord = np.c_[init_xyz_coord, np.ones(len(init_xyz_coord))]  
+    first_atom_coord = oldcoord[atom1_num-1][0:3]
+    second_atom_coord = oldcoord[atom2_num-1][0:3]
+    Xv =  second_atom_coord-first_atom_coord
+    Xv_xy = Xv.copy()
+    Xv_xy[2] = 0
+    X_v = np.array([Xv[0],0,0])
+    Z_v = np.array([0,0,1])
+    alpha = np.arccos(Xv_xy[0:3].dot(
+            X_v[0:3])/(np.sqrt(Xv_xy[0:3].dot(Xv_xy[0:3]))*np.sqrt(X_v[0:3].dot(X_v[0:3]))))
+    beta = np.arccos(Xv[0:3].dot(
+            Z_v)/(np.sqrt(Xv[0:3].dot(Xv[0:3]))*np.sqrt(Z_v.dot(Z_v))))
+    if Xv_xy[1]*Xv_xy[0] > 0:
+        alpha = -alpha
+    if Xv[0] < 0:
+        beta = -beta    
+    def T_M(a):
+        T_M = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [
+                       0, 0, 1, 0], [a[0], a[1], a[2], 1]])
+        return T_M
+    
+    def RZ_alpha_M(alpha):
+        RZ_alpha_M = np.array([[np.cos(alpha), np.sin(
+            alpha), 0, 0], [-np.sin(alpha), np.cos(alpha), 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+        return RZ_alpha_M
+    
+    def RY_beta_M(beta):
+        RY_beta_M = np.array([[np.cos(beta), 0, np.sin(beta), 0], [
+                             0, 1, 0, 0], [-np.sin(beta), 0, np.cos(beta), 0], [0, 0, 0, 1]])
+        return RY_beta_M
+    a = -first_atom_coord
+    new_xyz_coord1 = oldcoord.dot(T_M(a)).dot(
+        RZ_alpha_M(alpha)).dot(RY_beta_M(beta))            
+    third_atom_coord = new_xyz_coord1[atom3_num-1][0:3]
+    second_atom_coord = new_xyz_coord1[atom2_num-1][0:3]
+    Xy = third_atom_coord - second_atom_coord
+    Y_v = np.array([0, 1, 0])
+    gamma = np.arccos(Xy.dot(Y_v)/(np.sqrt(Xy.dot(Xy))*np.sqrt(Y_v.dot(Y_v))))
+    if Xy[0] < 0:
+        gamma = -gamma
+    NewCoord = new_xyz_coord1.dot(RZ_alpha_M(gamma))
+    
+    third_atom_coord = NewCoord[atom3_num-1][0:3]
+    third_XY = third_atom_coord[0:2]
+    axis_y_2d = np.array([0,1])
+    sita = np.arccos(third_XY.dot(axis_y_2d)/(np.sqrt(third_XY.dot(third_XY))*np.sqrt(axis_y_2d.dot(axis_y_2d))))
+    if third_XY[0]*third_XY[1] < 0:
+        sita = -sita
+    NewCoord0 = NewCoord.dot(RZ_alpha_M(sita))
+    NewCoord1 = np.around(np.delete(NewCoord0, 3, axis=1), decimals=8)   
+    return NewCoord1      
 
 def shuffle_index(array,random_state=None):
     np.random.seed(random_state)
@@ -402,4 +491,3 @@ def drawregfig(train_y,train_pred,test_y,test_pred,tag_scale,figsave_path=None):
     plt.tight_layout()
     if figsave_path != None:
         fig.savefig(figsave_path,dpi=400)
-
