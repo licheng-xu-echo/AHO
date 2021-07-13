@@ -11,6 +11,7 @@ pandas>=1.2.0
 ase>=3.21.0
 dscribe>=1.0.0
 rdkit>=2019.09.3
+openbabel>=3.1.0
 scikit-learn>=0.23.2
 mordred>=1.2.0
 matplotlib>=3.3.2
