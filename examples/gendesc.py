@@ -14,7 +14,7 @@ from dscribe.descriptors import ACSF,SOAP,LMBTR,MBTR
 from ase import Atoms as ASE_Atoms
 period_table = Chem.GetPeriodicTable()
 
-def getmorganfp(mol,radius=2,nBits=2048,useChirality=True):
+def getmorganfp(mol,radius=4,nBits=2048,useChirality=True):
     '''
     
     Parameters
@@ -71,7 +71,7 @@ class generate2Ddesc():
 
         self.smi_set = np.unique(np.concatenate([self.re_smi,self.pr_smi,self.sol_smi,self.cat_smi]))
         self.mol_set = [Chem.MolFromSmiles(tmp_smi) for tmp_smi in self.smi_set]
-    def getmorganfp(self,mol,radius=2,nBits=2048,useChirality=True):
+    def getmorganfp(self,mol,radius=4,nBits=2048,useChirality=True):
         '''
         
         Parameters
@@ -118,7 +118,7 @@ class generate2Ddesc():
         modred_df = calc.pandas(self.mol_set)
         modred_desc_map = {self.smi_set[i]: modred_df.iloc[i].to_numpy() for i in range(len(self.smi_set))}
         return modred_desc_map
-    def calc_mf_desc(self):
+    def calc_mf_desc(self,radius=4,nBits=2048,useChirality=True):
         '''
         
 
@@ -129,7 +129,8 @@ class generate2Ddesc():
 
         '''
         
-        mf_desc_map = {self.smi_set[i]:self.getmorganfp(self.mol_set[i]) for i in range(len(self.smi_set))}
+        mf_desc_map = {self.smi_set[i]:self.getmorganfp(self.mol_set[i],
+        radius=radius,nBits=nBits,useChirality=useChirality) for i in range(len(self.smi_set))}
         return mf_desc_map
 
 class generate3Ddesc():
@@ -169,11 +170,11 @@ class generate3Ddesc():
         self.atom_species = atom_species
         return key_atoms,atom_species
     
-    def calc_acsf_desc(self):
+    def calc_acsf_desc(self,rcut,g2_params,g4_params):
         key_atoms,atom_species = self.getkeyatomspecies()
-        rcut=6.0
-        g2_params=[[1, 1], [1, 2], [1, 3]]
-        g4_params=[[1, 1, 1], [1, 2, 1], [1, 1, -1], [1, 2, -1]]
+        #rcut=6.0
+        #g2_params=[[1, 1], [1, 2], [1, 3]]
+        #g4_params=[[1, 1, 1], [1, 2, 1], [1, 1, -1], [1, 2, -1]]
         cat_calc = ACSF(species=atom_species['cat'],rcut=rcut,g2_params=g2_params,g4_params=g4_params)
         re_calc = ACSF(species=atom_species['react'],rcut=rcut,g2_params=g2_params,g4_params=g4_params)
         pr_calc = ACSF(species=atom_species['prod'],rcut=rcut,g2_params=g2_params,g4_params=g4_params)
@@ -210,11 +211,11 @@ class generate3Ddesc():
             acsf_desc_map[tmp_smi] = tmp_desc
         return acsf_desc_map
     
-    def calc_soap_desc(self):
+    def calc_soap_desc(self,rcut,nmax,lmax):
         key_atoms,atom_species = self.getkeyatomspecies()
-        rcut = 6.0
-        nmax = 4
-        lmax = 3
+        #rcut = 6.0
+        #nmax = 4
+        #lmax = 3
         re_calc = SOAP(species=atom_species['react'],rcut=rcut,nmax=nmax,lmax=lmax)
         pr_calc = SOAP(species=atom_species['prod'],rcut=rcut,nmax=nmax,lmax=lmax)
         cat_calc = SOAP(species=atom_species['cat'],rcut=rcut,nmax=nmax,lmax=lmax)
@@ -250,8 +251,9 @@ class generate3Ddesc():
                 tmp_desc = np.concatenate(tmp_desc)
             soap_desc_map[tmp_smi] = tmp_desc
         return soap_desc_map
-    def calc_lmbtr_desc(self):
+    def calc_lmbtr_desc(self,k2,k3):
         key_atoms,atom_species = self.getkeyatomspecies()
+        '''
         k2={
                 "geometry": {"function": "inverse_distance"},
                 "grid": {"min": 0, "max": 1, "n": 10, "sigma": 0.1},
@@ -262,6 +264,7 @@ class generate3Ddesc():
                 "grid": {"min": -1, "max": 1, "n": 10, "sigma": 0.1},
                 "weighting": {"function": "exponential", "scale": 0.5, "cutoff": 1e-3},
             }
+        '''
         re_calc = LMBTR(species=atom_species['react'],k2=k2,k3=k3,periodic=False)
         pr_calc = LMBTR(species=atom_species['prod'],k2=k2,k3=k3,periodic=False)
         cat_calc = LMBTR(species=atom_species['cat'],k2=k2,k3=k3,periodic=False)
@@ -297,22 +300,24 @@ class generate3Ddesc():
                 tmp_desc = np.concatenate(tmp_desc)
             lmbtr_desc_map[tmp_smi] = tmp_desc
         return lmbtr_desc_map
-    def calc_mbtr_desc(self):
+    def calc_mbtr_desc(self,k1,k2,k3):
         key_atoms,atom_species = self.getkeyatomspecies()
+        '''
         k1={
                 "geometry": {"function": "atomic_number"},
                 "grid": {"min": 0, "max": 8, "n": 10, "sigma": 0.1},
             }
         k2={
                 "geometry": {"function": "inverse_distance"},
-                "grid": {"min": 0, "max": 1, "n": 10, "sigma": 0.1},
+                "grid": {"min": 0, "max": 4, "n": 10, "sigma": 0.1},
                 "weighting": {"function": "exponential", "scale": 0.5, "cutoff": 1e-3},
             }
         k3={
                 "geometry": {"function": "cosine"},
-                "grid": {"min": -1, "max": 1, "n": 10, "sigma": 0.1},
+                "grid": {"min": -1, "max": 4, "n": 10, "sigma": 0.1},
                 "weighting": {"function": "exponential", "scale": 0.5, "cutoff": 1e-3},
             }
+        '''
         re_calc = MBTR(species=atom_species['react'],k1=k1,k2=k2,k3=k3,periodic=False,normalization="l2_each")
         pr_calc = MBTR(species=atom_species['prod'],k1=k1,k2=k2,k3=k3,periodic=False,normalization="l2_each")
         cat_calc = MBTR(species=atom_species['cat'],k1=k1,k2=k2,k3=k3,periodic=False,normalization="l2_each")
