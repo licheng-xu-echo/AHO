@@ -16,9 +16,9 @@ scikit-learn>=0.23.2
 mordred>=1.2.0
 matplotlib>=3.3.2
 ```
-We suggest using [Anaconda](www.anaconda.org) to install the python 3.8.5 or higher version, as conda and pip together make the installation of these dependences much easier. All test are executed under Ubuntu 18.04, as the [*dscribe*](https://singroup.github.io/dscribe/latest/install.html) package currently only support Unix-based systems.
+We suggest using [Anaconda](https://www.anaconda.com/) to install the python 3.8.5 or higher version, as conda and pip together make the installation of these dependences much easier. All test are executed under Ubuntu 18.04, as the [*dscribe*](https://singroup.github.io/dscribe/latest/install.html) package currently only support Unix-based systems.
 # Installation of dependence
-We suggest using [Anaconda](www.anaconda.org) to prepare dependence as many packages are built-in Anaconda base environment. For those packages not built-in, you may input following commands to install them and follow the installation instructions.
+We suggest using [Anaconda](https://www.anaconda.com/) to prepare dependence as many packages are built-in Anaconda base environment. For those packages not built-in, you may input following commands to install them and follow the installation instructions.
 ```
 conda install ase
 pip install dscribe
