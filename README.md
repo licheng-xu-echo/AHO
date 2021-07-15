@@ -2,7 +2,7 @@
 This is a project for paper *"Towards Data-driven Design of **A**symmetric **H**ydrogenation of **O**lefins: Database and Hierarchical Learning"*. Here, you can find scripts used in this study.
 # Introduction
 Asymmetric hydrogenation of olefins is one of the most powerful asymmetric transformations in molecular synthesis. Although several privileged catalyst scaffolds are available, the catalyst development for asymmetric hydrogenation is still a time- and resource-consuming process due to the lack of predictive catalyst design strategy. Targeting the data-driven design of asymmetric catalysis, we herein report the development of a standardized database that contains the detailed information of over 12000 literature asymmetric hydrogenations of olefins. This database provides a valuable platform for the machine learning applications in asymmetric catalysis. Based on this database, we developed a hierarchical learning approach to achieve predictive machine leaning model using only dozens of enantioselectivity data with the target olefin, which offers a useful solution for the few-shot learning problem in the early stage of catalysis screening.
-# Dependences
+# Dependence
 In order to run Jupyter Notebook for machine learning application demonstration, several third-party python packages are required.
 ```
 python>=3.8.5
@@ -17,6 +17,15 @@ mordred>=1.2.0
 matplotlib>=3.3.2
 ```
 We suggest using [Anaconda](www.anaconda.org) to install the python 3.8.5 or higher version, as conda and pip together make the installation of these dependences much easier. All test are executed under Ubuntu 18.04, as the [*dscribe*](https://singroup.github.io/dscribe/latest/install.html) package currently only support Unix-based systems.
+# Installation of dependence
+We suggest using [Anaconda](www.anaconda.org) to prepare dependence as many packages are built-in Anaconda base environment. For those packages not built-in, you may input following commands to install them and follow the installation instructions.
+```
+conda install ase
+pip install dscribe
+conda install rdkit -c rdkit
+conda install openbabel -c conda-forge
+conda install -c rdkit -c mordred-descriptor mordred
+```
 # Usage
 Here we provide [three tutorials](https://github.com/licheng-xu-echo/AHO/tree/main/examples) in Jupyter Notebook format to demonstrate how to generate descriptors with provided reaction data, train machine learning model and use *hierarchical learning* approach to handle few-shot learning problem.
 # Dataset availability
