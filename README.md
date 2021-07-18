@@ -1,5 +1,5 @@
 # AHO
-This is a project for paper *"Towards Data-driven Design of **A**symmetric **H**ydrogenation of **O**lefins: Database and Hierarchical Learning"*. Here, you can find scripts used in this study.
+This is a repository for paper *"Towards Data-driven Design of **A**symmetric **H**ydrogenation of **O**lefins: Database and Hierarchical Learning"*. Here, you can find scripts used in this study.
 # Introduction
 Asymmetric hydrogenation of olefins is one of the most powerful asymmetric transformations in molecular synthesis. Although several privileged catalyst scaffolds are available, the catalyst development for asymmetric hydrogenation is still a time- and resource-consuming process due to the lack of predictive catalyst design strategy. Targeting the data-driven design of asymmetric catalysis, we herein report the development of a standardized database that contains the detailed information of over 12000 literature asymmetric hydrogenations of olefins. This database provides a valuable platform for the machine learning applications in asymmetric catalysis. Based on this database, we developed a hierarchical learning approach to achieve predictive machine leaning model using only dozens of enantioselectivity data with the target olefin, which offers a useful solution for the few-shot learning problem in the early stage of catalysis screening.
 # Dependence
