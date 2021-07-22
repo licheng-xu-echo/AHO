@@ -27,7 +27,7 @@ conda install openbabel -c conda-forge
 conda install -c rdkit -c mordred-descriptor mordred
 ```
 # Usage
-Here we provide [three tutorials](https://github.com/licheng-xu-echo/AHO/tree/main/examples) in Jupyter Notebook format to demonstrate how to generate descriptors with provided reaction data, train machine learning model and use *hierarchical learning* approach to handle few-shot learning problem.
+Here we provide [several tutorials](https://github.com/licheng-xu-echo/AHO/tree/main/examples) in Jupyter Notebook format to demonstrate how to generate descriptors with provided reaction data, train machine learning model and use *hierarchical learning* approach to handle few-shot learning problem.
 # Dataset availability
 We will provide the database website after paper is online.
 # How to cite
