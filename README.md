@@ -29,8 +29,8 @@ conda install -c rdkit -c mordred-descriptor mordred
 # Usage
 Here we provide [several tutorials](https://github.com/licheng-xu-echo/AHO/tree/main/examples) in Jupyter Notebook format to demonstrate how to generate descriptors with provided reaction data, train machine learning model and use *hierarchical learning* approach to handle few-shot learning problem.
 # Dataset availability
-We will provide the database website after paper is online.
+You can find information about reaction of Asymmetric Hydrogenation over [there](http://asymcatml.net/). Dataset availability is provided after registration
 # How to cite
-If the dataset or hierarchical learning is used in our publication, please cite as: Xu, L. -C.; Zhang, S. -Q.; Li, X.; Tang, M. -J.; Xie, P. -P.; Hong, X. *Angew. Chem. Int. Ed.* **2021**, DOI: 10.1002/anie.202106880
+If the database or hierarchical learning is used in our publication, please cite as: Xu, L. -C.; Zhang, S. -Q.; Li, X.; Tang, M. -J.; Xie, P. -P.; Hong, X. *Angew. Chem. Int. Ed.* **2021**, DOI: 10.1002/anie.202106880
 # Contact with us
 Email: hxchem@zju.edu.cn; licheng_xu@zju.edu.cn
