@@ -31,6 +31,6 @@ Here we provide [several tutorials](https://github.com/licheng-xu-echo/AHO/tree/
 # Dataset availability
 We will provide the database website after paper is online.
 # How to cite
-To be continued...
+If the dataset or hierarchical learning is used in our publication, please cite as: Xu, L. -C.; Zhang, S. -Q.; Li, X.; Tang, M. -J.; Xie, P. -P.; Hong, X. *Angew. Chem. Int. Ed.* **2021**, DOI: 10.1002/anie.202106880
 # Contact with us
 Email: hxchem@zju.edu.cn; licheng_xu@zju.edu.cn
