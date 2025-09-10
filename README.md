@@ -6,6 +6,7 @@ This is a repository for paper [*"Towards Data-driven Design of **A**symmetric *
 The online database server can be accessed at http://asymcatml.net/
 # Introduction
 Asymmetric hydrogenation of olefins is one of the most powerful asymmetric transformations in molecular synthesis. Although several privileged catalyst scaffolds are available, the catalyst development for asymmetric hydrogenation is still a time- and resource-consuming process due to the lack of predictive catalyst design strategy. Targeting the data-driven design of asymmetric catalysis, we herein report the development of a standardized database that contains the detailed information of over 12000 literature asymmetric hydrogenations of olefins. This database provides a valuable platform for the machine learning applications in asymmetric catalysis. Based on this database, we developed a hierarchical learning approach to achieve predictive machine leaning model using only dozens of enantioselectivity data with the target olefin, which offers a useful solution for the few-shot learning problem in the early stage of catalysis screening.
+![AHO_TOC](meta/anie202106880-toc-0001-m.jpg)
 # Dependence
 In order to run Jupyter Notebook for machine learning application demonstration, several third-party python packages are required.
 ```
@@ -33,8 +34,8 @@ conda install -c rdkit -c mordred-descriptor mordred
 # Usage
 Here we provide [several tutorials](https://github.com/licheng-xu-echo/AHO/tree/main/examples) in Jupyter Notebook format to demonstrate how to generate descriptors with provided reaction data, train machine learning model and use *hierarchical learning* approach to handle few-shot learning problem.
 # Dataset availability
-You can find information about reaction of Asymmetric Hydrogenation over [there](http://asymcatml.net/). Dataset availability is provided after registration
+You can find information about reaction of Asymmetric Hydrogenation over [there](http://asymcatml.net/).
 # How to cite
-If the database or hierarchical learning is used in our publication, please cite as: Xu, L. -C.; Zhang, S. -Q.; Li, X.; Tang, M. -J.; Xie, P. -P.; Hong, X. *Angew. Chem. Int. Ed.* **2021**, *60*, 22804.
+If the database or hierarchical learning is used in your publication, please cite as: Xu, L. -C.; Zhang, S. -Q.; Li, X.; Tang, M. -J.; Xie, P. -P.; Hong, X. *Angew. Chem. Int. Ed.* **2021**, *60*, 22804.
 # Contact with us
 Email: hxchem@zju.edu.cn; licheng_xu@zju.edu.cn
