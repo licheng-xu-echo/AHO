@@ -472,9 +472,9 @@ def drawregfig(train_y,train_pred,test_y,test_pred,tag_scale,figsave_path=None):
     plt.subplot(121)
     plt.scatter(train_y*tag_scale,train_pred*tag_scale,c='darkviolet',alpha=0.2)
     plt.plot([0,4.6],[0,4.6],c='deepskyblue')
-    plt.xlabel('Observed $\Delta$$\Delta$$\itG$ (kcal/mol)',fontsize=fontsize)
+    plt.xlabel('Observed $\Delta\Delta G$ (kcal/mol)',fontsize=fontsize)
     plt.xticks(fontsize=fontsize-3)
-    plt.ylabel('Predict $\Delta$$\Delta$$\itG$ (kcal/mol)',fontsize=fontsize)
+    plt.ylabel('Predict $\Delta\Delta G$ (kcal/mol)',fontsize=fontsize)
     plt.yticks(fontsize=fontsize-3)
     plt.text(0.1,4.4,'MAE: %.3f kcal/mol'%(mean_absolute_error(train_y,train_pred)*tag_scale),fontsize=fontsize)
     plt.text(0.1,4.0,'${R^2}$: %.3f'%r2_score(train_y,train_pred),fontsize=fontsize)
@@ -482,12 +482,15 @@ def drawregfig(train_y,train_pred,test_y,test_pred,tag_scale,figsave_path=None):
     plt.subplot(122)
     plt.scatter(test_y*tag_scale,test_pred*tag_scale,c='forestgreen',alpha=0.5)
     plt.plot([0,4.6],[0,4.6],c='lightcoral')
-    plt.xlabel('Observed $\Delta$$\Delta$$\itG$ (kcal/mol)',fontsize=fontsize)
+    plt.xlabel('Observed $\Delta\Delta G$ (kcal/mol)',fontsize=fontsize)
     plt.xticks(fontsize=fontsize-3)
-    plt.ylabel('Predict $\Delta$$\Delta$$\itG$ (kcal/mol)',fontsize=fontsize)
+    plt.ylabel('Predict $\Delta\Delta G$ (kcal/mol)',fontsize=fontsize)
     plt.yticks(fontsize=fontsize-3)
     plt.text(0.1,4.4,'MAE: %.3f kcal/mol'%(mean_absolute_error(test_y,test_pred)*tag_scale),fontsize=fontsize)
     plt.text(0.1,4.0,'${R^2}$: %.3f'%r2_score(test_y,test_pred),fontsize=fontsize)
-    plt.tight_layout()
+    try:
+        plt.tight_layout()
+    except Exception:
+        pass
     if figsave_path != None:
         fig.savefig(figsave_path,dpi=400)
